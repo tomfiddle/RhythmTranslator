@@ -5,7 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2A3136"
+    android:textAlignment="textStart"
+    app:flow_horizontalAlign="start"
     tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/user_text_input"
+        android:layout_width="324dp"
+        android:layout_height="214dp"
+        android:background="#E2E2E2"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Type your rythm"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.097" />
 
     <TextView
         android:id="@+id/notes_view"
@@ -15,33 +33,21 @@
         android:text="Hello World!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.797" />
-
-    <EditText
-        android:id="@+id/user_text_input"
-        android:layout_width="347dp"
-        android:layout_height="211dp"
-        android:background="#E2E2E2"
-        android:ems="10"
-        android:gravity="left"
-        android:inputType="text"
-        android:text="Type your rythm"
-        android:textAlignment="gravity"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.076" />
+        app:layout_constraintVertical_bias="0.838" />
 
     <Button
         android:id="@+id/convert_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Convert"
-        tools:layout_editor_absoluteX="156dp"
-        tools:layout_editor_absoluteY="298dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.859"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.378" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

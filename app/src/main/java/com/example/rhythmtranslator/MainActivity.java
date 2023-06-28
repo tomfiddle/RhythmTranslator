@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Hello World!", Toast.LENGTH_SHORT).show();
 
         //init UI components on creation
+        noteDictionary = new LinkedHashMap<>();
         userTextInput = findViewById(R.id.user_text_input);
         notesView = findViewById(R.id.notes_view);
         convertButton = findViewById(R.id.convert_button);
@@ -50,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String userText = userTextInput.getText().toString();
-                //translateToNotes(userText); -returns String
-
+                String notes = translateToNotes(userText); //returns String
+                notesView.setText(notes);
             }
         }));
 
@@ -61,12 +62,18 @@ public class MainActivity extends AppCompatActivity {
 
     private String translateToNotes(String userText){
         StringBuilder noteText = new StringBuilder();
-        userText.toLowerCase();
+        userText = userText.toLowerCase();
         for (int i = 0; i < userText.length(); i++) {
             char c = userText.charAt(i);
-            /*if map contains key condition
-            * String note = map.get(c)  - get note value
-            * noteText.append(note);*/
+            //potentially change to function parameter
+            if (Character.isLetter(c) || Character.isWhitespace(c)) {
+                if (noteDictionary.containsKey(c)) {
+                    String note = noteDictionary.get(c);
+                    noteText.append(note);
+                }
+            } else {
+                noteText.append(c); // Append non-letter and non-whitespace characters as-is
+            }
         }
         return noteText.toString().trim();
     }
