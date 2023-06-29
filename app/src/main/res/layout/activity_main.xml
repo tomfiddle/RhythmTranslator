@@ -11,43 +11,42 @@
 
     <EditText
         android:id="@+id/user_text_input"
-        android:layout_width="324dp"
-        android:layout_height="214dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="#E2E2E2"
         android:ems="10"
         android:inputType="text"
-        android:text="Type your rythm"
+        android:text="Type your rhythm"
         android:textAlignment="textStart"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/convert_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.097" />
-
-    <TextView
-        android:id="@+id/notes_view"
-        android:layout_width="345dp"
-        android:layout_height="297dp"
-        android:background="#E3E3E3"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.838" />
+        app:layout_constraintVertical_bias="0.09" />
 
     <Button
         android:id="@+id/convert_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Convert"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/notes_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.859"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.378" />
+        app:layout_constraintTop_toBottomOf="@+id/user_text_input"
+        app:layout_constraintVertical_bias="0.36" />
 
+    <TextView
+        android:id="@+id/notes_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#E3E3E3"
+        android:text="Your rhythm will appear here"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/convert_button"
+        app:layout_constraintVertical_bias="0.1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

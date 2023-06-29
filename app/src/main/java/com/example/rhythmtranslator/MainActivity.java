@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 String userText = userTextInput.getText().toString();
                 String notes = translateToNotes(userText); //returns String
                 notesView.setText(notes);
+                audioPlayer(notes);
+
             }
         }));
 
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 if (noteDictionary.containsKey(c)) {
                     String note = noteDictionary.get(c);
                     noteText.append(note);
+
                 }
             } else {
                 noteText.append(c); // Append non-letter and non-whitespace characters as-is
@@ -101,7 +105,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void audioPlayer(String notes){
+        MediaPlayer notePlayer = new MediaPlayer();
+        for(int i = 0; i < notes.length(); i++){
+            char c = notes.charAt(i);
+            String singleNote = String.valueOf(c);
+            if(singleNote.equals("1")){
+                notePlayer.start();
+            }else{
 
+            }
+        }
+    }
 
 
 
