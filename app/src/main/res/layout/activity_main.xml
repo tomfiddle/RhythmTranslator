@@ -11,8 +11,8 @@
 
     <EditText
         android:id="@+id/user_text_input"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="376dp"
+        android:layout_height="242dp"
         android:background="#E2E2E2"
         android:ems="10"
         android:inputType="text"
@@ -32,19 +32,21 @@
         android:text="Convert"
         app:layout_constraintBottom_toTopOf="@+id/notes_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.859"
+        app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_text_input"
         app:layout_constraintVertical_bias="0.36" />
 
     <TextView
         android:id="@+id/notes_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#E3E3E3"
+        android:layout_width="358dp"
+        android:layout_height="215dp"
+
+        android:background="@drawable/rounded_corner"
         android:text="Your rhythm will appear here"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/convert_button"
         app:layout_constraintVertical_bias="0.1" />

@@ -3,6 +3,7 @@ package com.example.rhythmtranslator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -16,9 +17,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.lang.System;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView notesView;
     private Button convertButton;
     private LinkedHashMap<Character, String> noteDictionary;
+
+    private MediaPlayer notePlayer = new MediaPlayer();
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -105,18 +109,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void audioPlayer(String notes){
-        MediaPlayer notePlayer = new MediaPlayer();
-        for(int i = 0; i < notes.length(); i++){
-            char c = notes.charAt(i);
-            String singleNote = String.valueOf(c);
-            if(singleNote.equals("1")){
-                notePlayer.start();
-            }else{
-
+    private void audioPlayer(String notes) {
+        try {
+            AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.click);
+            notePlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            afd.close();
+            notePlayer.prepare();
+            for (int i = 0; i < notes.length(); i++) {
+                char c = notes.charAt(i);
+                String singleNote = String.valueOf(c);
+                if (singleNote.equals("1")) {
+                    notePlayer.start();
+                } else {
+                    long millis = System.currentTimeMillis();
+                    //Toast.makeText(this, "Current Time: " + millis, Toast.LENGTH_SHORT).show();
+                    // Or set the time in a TextView for debugging purposes
+                    // textView.setText("Current Time: " + millis);
+                    Thread.sleep(250);
+                }
             }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to set data source", e);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
+
+
 
 
 
