@@ -8,8 +8,10 @@ import android.content.res.AssetManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,29 +24,32 @@ import java.lang.System;
 
 public class MainActivity extends AppCompatActivity {
 
-    //UI components
+    // UI components
     private EditText userTextInput;
     private TextView notesView;
     private Button convertButton;
+    private ImageButton playButton;
     private LinkedHashMap<Character, String> noteDictionary;
 
     private MediaPlayer notePlayer = new MediaPlayer();
 
 
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(this, "Hello World!", Toast.LENGTH_SHORT).show();
 
-        //init UI components on creation
+
+        // Init UI components on creation
         noteDictionary = new LinkedHashMap<>();
         userTextInput = findViewById(R.id.user_text_input);
         notesView = findViewById(R.id.notes_view);
         convertButton = findViewById(R.id.convert_button);
+        playButton = findViewById(R.id.play_button);
 
+        //read dictionary.txt and put into linked hashmap
         getNoteToChar(noteDictionary);
 
         /* When convert button is clicked:
@@ -52,16 +57,52 @@ public class MainActivity extends AppCompatActivity {
         * 2. convert characters to notes
         * 3. build note string
         * 4. show notes in text view*/
-        convertButton.setOnClickListener((new View.OnClickListener() {
+
+        convertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get user text
+                String userText = userTextInput.getText().toString();
+                String notes = translateToNotes(userText); // Returns string, e. g. 0100
+                // Display the translated letters for now
+                notesView.setText(notes);
+                audioPlayer(notes);
+            }
+        });
+      /*  convertButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String userText = userTextInput.getText().toString();
-                String notes = translateToNotes(userText); //returns String
-                notesView.setText(notes);
-                audioPlayer(notes);
+                String notes = translateToNotes(userText); // Returns String
+                convertButton.setOnClickListener((new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        convertButton.setVisibility(View.INVISIBLE);
+                        notesView.setText(notes);
+                        // Add metronome with tempo 60
+                        audioPlayer(notes);
+                    }
+                }));
+                convertButton.setVisibility(View.INVISIBLE);
+                playButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                            audioPlayer(notes);
+
+                    }
+                });
+                userTextInput.setOnClickListener((new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        convertButton.setVisibility(View.VISIBLE);
+                    }
+                }));
             }
+
         }));
+
+        */
 
     }
 
@@ -72,18 +113,20 @@ public class MainActivity extends AppCompatActivity {
         userText = userText.toLowerCase();
         for (int i = 0; i < userText.length(); i++) {
             char c = userText.charAt(i);
-            //potentially change to function parameter
+            //Potentially change to function parameter
             if (Character.isLetter(c) || Character.isWhitespace(c)) {
                 if (noteDictionary.containsKey(c)) {
                     String note = noteDictionary.get(c);
-                    noteText.append(note);
-
+                        noteText.append(note);
                 }
             } else {
                 noteText.append(c); // Append non-letter and non-whitespace characters as-is
             }
         }
-        return noteText.toString().trim();
+        String notes = noteText.toString().trim();
+        // Clean string builder at the end
+        noteText.setLength(0);
+        return notes;
     }
 
     private void getNoteToChar(LinkedHashMap<Character, String> map){
@@ -94,12 +137,12 @@ public class MainActivity extends AppCompatActivity {
 
             String line = "";
             while((line = reader.readLine())!=null){
-                //separate using "-"
+                // Separate using "-"
                 String [] parts = line.split("-");
 
                 char letter = parts[0].charAt(0);
                 String note = parts[1];
-                //add to hashmap
+                // Add to hashmap
                 map.put(letter, note);
 
             }
@@ -122,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     notePlayer.start();
                 } else {
                     long millis = System.currentTimeMillis();
-                    //Toast.makeText(this, "Current Time: " + millis, Toast.LENGTH_SHORT).show();
+
                     // Or set the time in a TextView for debugging purposes
                     // textView.setText("Current Time: " + millis);
                     Thread.sleep(250);
