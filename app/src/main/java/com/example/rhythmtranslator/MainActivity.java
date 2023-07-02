@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private LinkedHashMap<Character, String> noteDictionary;
 
     private MediaPlayer notePlayer = new MediaPlayer();
+    private MediaPlayer metronome = new MediaPlayer();
+
+    private boolean isPlaying = false;
 
 
 
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 // Display the translated letters for now
                 notesView.setText(notes);
                 audioPlayer(notes);
+                setMetronome();
             }
         });
       /*  convertButton.setOnClickListener((new View.OnClickListener() {
@@ -163,23 +167,38 @@ public class MainActivity extends AppCompatActivity {
                 String singleNote = String.valueOf(c);
                 if (singleNote.equals("1")) {
                     notePlayer.start();
+                    isPlaying = true;
                 } else {
-                    long millis = System.currentTimeMillis();
+                    //long millis = System.currentTimeMillis();
 
                     // Or set the time in a TextView for debugging purposes
                     // textView.setText("Current Time: " + millis);
+                    // Use countDownTimer
                     Thread.sleep(250);
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to set data source", e);
+            throw new RuntimeException("Failed to set note source", e);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
 
-
+    private void setMetronome(){
+        try {
+            AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.click);
+            metronome.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            afd.close();
+            metronome.prepare();
+            // If noteplayer starts playing or if playButton is pressed start playing metronome
+            if(isPlaying == true){
+                metronome.start();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
 
 }
