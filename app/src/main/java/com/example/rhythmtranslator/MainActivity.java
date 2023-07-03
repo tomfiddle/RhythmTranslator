@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,21 +26,22 @@ import java.util.LinkedHashMap;
 public class MainActivity extends AppCompatActivity {
 
     // UI components
-    private EditText userTextInput;
-    private TextView notesView;
-    private Button convertButton;
-    private ImageButton playButton;
-    private ImageButton pauseButton;
-    private ImageButton stopButton;
-    private ImageButton loopButton;
-    private LinkedHashMap<Character, String> noteDictionary;
-    private LinkedHashMap<Character, Integer> noteImages;
+    public EditText userTextInput;
+    public TextView notesView;
+    public ImageView imageView;
+    public Button convertButton;
+    public ImageButton playButton;
+    public ImageButton pauseButton;
+    public ImageButton stopButton;
+    public ImageButton loopButton;
+    public LinkedHashMap<Character, String> noteDictionary;
+    public LinkedHashMap<Character, Integer> noteImages;
 
-    private MediaPlayer notePlayer = new MediaPlayer();
-    private MediaPlayer metronome = new MediaPlayer();
+    public MediaPlayer notePlayer = new MediaPlayer();
+    public MediaPlayer metronome = new MediaPlayer();
 
-    private String notes;
-    private boolean isPlaying = false;
+    public String notes;
+    public boolean isPlaying = false;
 
 
     @SuppressLint({"MissingInflatedId"})
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 notes = translateToNotes(userText); // Returns string, e. g. 0100
                 // Display the translated letters for now
                 notesView.setText(notes);
+                displayNoteImages(userText);
                 audioPlayer(notes);
                 setMetronome();
             }
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @NonNull
-    private String translateToNotes(String userText) {
+    public String translateToNotes(String userText) {
         StringBuilder noteText = new StringBuilder();
         userText = userText.toLowerCase();
         for (int i = 0; i < userText.length(); i++) {
@@ -127,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Not necessary at all
     // Wanted to separate the data from the logic
-    private void getImageToNote() {
+    public void getImageToNote() {
         AssetManager assetManager = getAssets();
         try {
             InputStream inputStream = assetManager.open("letterToNoteImages.txt");
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getNoteToChar(LinkedHashMap<Character, String> map) {
+    public void getNoteToChar(LinkedHashMap<Character, String> map) {
         AssetManager assetManager = getAssets();
         try {
             InputStream inputStream = assetManager.open("dictionary.txt");
@@ -173,14 +176,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void displayNoteImages(){
+    public void displayNoteImages(String userText) {
         LinearLayout noteImagesContainer = findViewById(R.id.note_images_container);
         noteImagesContainer.removeAllViews();
 
-
+        userText = userText.toLowerCase();
+        for(int i = 0; i < userText.length(); i++){
+            char letter = userText.charAt(i);
+            if(noteImages.containsKey(letter)){
+                int noteImage = noteImages.get(letter);
+                imageView = new ImageView(this);
+                imageView.setImageResource(noteImage);
+                noteImagesContainer.addView(imageView);
+            }
+        }
     }
 
-    private void audioPlayer(String notes) {
+
+
+    public void audioPlayer(String notes) {
         //notePlayer = MediaPlayer.create(this, R.raw.snare);
         try {
             AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.snare);
@@ -196,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     notePlayer.start();
+                    isPlaying = true;
                 }
             };
 
@@ -214,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void setMetronome() {
+    public void setMetronome() {
         try {
             AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.click);
             metronome.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
@@ -225,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
                 metronome.start();
             }
             metronome.reset();
+            metronome.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
         } catch (IOException e) {
             e.printStackTrace();
         }
