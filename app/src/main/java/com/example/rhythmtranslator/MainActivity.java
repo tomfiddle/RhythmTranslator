@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
             if (isPlaying) {
                 metronome.start();
             }
+            metronome.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
