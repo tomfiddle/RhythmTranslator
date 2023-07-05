@@ -34,11 +34,11 @@ public class MainActivity extends AppCompatActivity {
     public ImageButton pauseButton;
     public ImageButton stopButton;
     public ImageButton loopButton;
-    public LinkedHashMap<Character, String> noteDictionary;
-    public LinkedHashMap<Character, Integer> noteImages;
+    public LinkedHashMap<Character, String> noteDictionary = new LinkedHashMap<>();
+    public LinkedHashMap<Character, Integer> noteImages = new LinkedHashMap<>();
 
     public MediaPlayer notePlayer = new MediaPlayer();
-    public MediaPlayer metronome = new MediaPlayer();
+    public MediaPlayer metronome = new MediaPlayer(); // Use audiotrack
 
     public String notes;
     public boolean isPlaying = false;
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Init UI components on creation
-        noteDictionary = new LinkedHashMap<>();
         userTextInput = findViewById(R.id.user_text_input);
         notesView = findViewById(R.id.notes_view);
         convertButton = findViewById(R.id.convert_button);
@@ -176,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public void displayNoteImages(String userText) {
         LinearLayout noteImagesContainer = findViewById(R.id.note_images_container);
         noteImagesContainer.removeAllViews();
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void audioPlayer(String notes) {
+    public void audioPlayer(String notes) {  // Create class
         //notePlayer = MediaPlayer.create(this, R.raw.snare);
         try {
             AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.snare);
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             notePlayer.prepare();
 
             final long delay = 250; // Delay for the 16th rest (250ms)
-            final long noteDuration = 250; // Duration for the notes (500ms)
+            final long noteDuration = 250; // Duration for the notes (250ms)
 
             final Handler handler = new Handler();
             final Runnable playNoteRunnable = new Runnable() {
@@ -220,8 +220,8 @@ public class MainActivity extends AppCompatActivity {
                 if (singleNote.equals("1")) {
                     handler.postDelayed(playNoteRunnable, i * (delay + noteDuration));
                 }
-                notePlayer.reset();
-                notePlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                //notePlayer.reset();
+                //notePlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to set note source", e);
@@ -239,8 +239,8 @@ public class MainActivity extends AppCompatActivity {
             if (isPlaying) {
                 metronome.start();
             }
-            metronome.reset();
-            metronome.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            //metronome.reset();
+            //metronome.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
         } catch (IOException e) {
             e.printStackTrace();
         }
